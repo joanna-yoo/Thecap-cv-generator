@@ -1,46 +1,92 @@
-import * as React from 'react';
+import React from 'react';
+import { CVData } from './main';
 
-import { PDFViewer } from '@react-pdf/renderer';
-import { documentStyles, markdownToCv, CvDocument, validateCvMarkdown } from '@thecap-cv/components';
-
-interface ReactViewProps {
-    markdown: string;
+interface Props {
+  data: CVData;
 }
 
-export const ReactView: React.FC<ReactViewProps> = ({ markdown }) => {
-  const { isValid, errors } = validateCvMarkdown(markdown);
+export const ReactView: React.FC<Props> = ({ data }) => {
 
-  if (!isValid) {
-    return (
-      <div className="react-view-container" style={{ padding: '20px', color: '#ff4444' }}>
-        <h3>Invalid cv format</h3>
-        <ul style={{ listStyle: 'none', padding: 0 }}>
-          {errors.map((error, index) => (
-            <li key={index} style={{ marginBottom: '8px' }}>❌ {error}</li>
-          ))}
-        </ul>
-        <p style={{ marginTop: '16px' }}>
-          Please check the correct CV format in our{' '}
-          <a 
-            href="https://github.com/xthecapx/cv-generator#readme" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            style={{ color: '#4444ff' }}
-          >
-            documentation
+  // Requirement #3: Markdown Link Recognition
+  const renderMarkdownLinks = (text: string) => {
+    const regex = /\[([^\]]+)\]\(([^)]+)\)/g;
+    const parts = text.split(regex);
+
+    if (parts.length === 1) return text;
+
+    const result: (string | JSX.Element)[] = [];
+    for (let i = 0; i < parts.length; i += 3) {
+      result.push(parts[i]);
+      if (parts[i + 1]) {
+        result.push(
+          <a key={i} href={parts[i + 2]} target="_blank" rel="noreferrer" style={{ color: 'inherit', textDecoration: 'underline' }}>
+            {parts[i + 1]}
           </a>
-        </p>
-      </div>
-    );
-  }
-
-  const cvData = markdownToCv(markdown);
+        );
+      }
+    }
+    return result;
+  };
 
   return (
-      <div className="react-view-container">
-        <PDFViewer style={documentStyles.viewer}>
-          <CvDocument cvData={cvData} />
-        </PDFViewer>
+    <div style={{ padding: '40px', fontFamily: 'sans-serif', color: '#333' }}>
+      {/* Header */}
+      <div style={{ textAlign: 'center', marginBottom: '20px' }}>
+        <h1 style={{ margin: '0 0 5px 0' }}>{data.name}</h1>
+        {/* Requirement #1: Optional Title */}
+        {data.title && <h3 style={{ margin: '0', color: '#666', fontWeight: 'normal' }}>{data.title}</h3>}
+
+        <div style={{ marginTop: '10px' }}>
+          {Object.entries(data.contact).map(([key, value], idx) => (
+            <span key={key}>
+              {idx > 0 && ' • '}
+              {renderMarkdownLinks(value)}
+            </span>
+          ))}
+        </div>
       </div>
+
+      {/* Experience Section */}
+      <div style={{ marginTop: '30px' }}>
+        <h2 style={{ borderBottom: '1px solid #ccc', paddingBottom: '5px' }}>Experience</h2>
+        {data.experiences.map((exp, idx) => (
+          <div key={idx} style={{ marginBottom: '20px' }}>
+            <h3 style={{ margin: '0 0 5px 0' }}>{exp.company}</h3>
+            {/* Requirement #2: Map multiple roles */}
+            {exp.roles.map((role, rIdx) => (
+              <div key={rIdx} style={{ marginBottom: '10px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', fontWeight: 'bold' }}>
+                  <span>{role.title}</span>
+                  <span style={{ fontWeight: 'normal' }}>{role.date}</span>
+                </div>
+                <ul style={{ marginTop: '5px' }}>
+                  {role.points.map((point, pIdx) => (
+                    <li key={pIdx} style={{ marginBottom: '3px' }}>
+                      {renderMarkdownLinks(point)}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
+
+      {/* Education Section */}
+      <div style={{ marginTop: '30px' }}>
+        <h2 style={{ borderBottom: '1px solid #ccc', paddingBottom: '5px' }}>Education</h2>
+        {data.education.map((edu, idx) => (
+          <div key={idx} style={{ marginBottom: '15px' }}>
+            <h3 style={{ margin: '0' }}>{edu.company}</h3>
+            {edu.roles.map((role, rIdx) => (
+              <div key={rIdx} style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <span>{role.title}</span>
+                <span>{role.date}</span>
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
+    </div>
   );
 };
