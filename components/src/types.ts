@@ -5,9 +5,10 @@ export interface ContactLink {
 
 export interface ContactInfo {
   name: string;
-  title: string;
   phone: string;
   email: string;
+  github: string;
+  website: string;
   location: string;
   links: ContactLink[];
 }

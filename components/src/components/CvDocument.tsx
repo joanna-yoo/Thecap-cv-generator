@@ -58,23 +58,20 @@ export const CvDocument = ({ cvData }: { cvData: CvData }) => {
             <Link src={`mailto:${cvData.contact.email}`} style={documentStyles.contactText}>
               {cvData.contact.email}
             </Link>
-          </View>
-          <View style={documentStyles.contactRow}>
-            {cvData.contact.links.map((link, index) => (
-              <Fragment key={index}>
-                {index > 0 && <Text style={documentStyles.bullet}>•</Text>}
-                <Text>{`${link.text}: `}</Text>
-                <Link src={`https://${link.url}`} style={documentStyles.contactText}>
-                  {link.url}
-                </Link>
-              </Fragment>
-            ))}
+            <Text style={documentStyles.bullet}>•</Text>
+            <Text>Website: </Text>
+            <Link
+              src={cvData.contact.website.startsWith('http') ? cvData.contact.website : `https://${cvData.contact.website}`}
+              style={documentStyles.contactText}
+            >
+              {cvData.contact.website}
+            </Link>
           </View>
         </View>
         {cvData.sections.map((section, index) => (
           <Section key={index} section={section} />
         ))}
       </Page>
-    </Document>
+    </Document >
   );
 };

@@ -19,7 +19,7 @@ export function markdownToCv(markdown: string): CvData {
   const lines = content.split('\n').filter(line => line.trim());
   const cv: CvData = {
     properties: Object.keys(properties).length > 0 ? properties : undefined,
-    contact: { name: '', title: '', phone: '', email: '', location: '', links: [] },
+    contact: { name: '', phone: '', email: '', location: '', website: '', github: '', links: [] },
     sections: []
   };
 
@@ -31,6 +31,26 @@ export function markdownToCv(markdown: string): CvData {
 
     if (line.startsWith('# ')) {
       cv.contact.name = line.replace('# ', '');
+      continue;
+    }
+    if (line.startsWith('- Phone: ')) {
+      cv.contact.phone = line.replace('- Phone: ', '');
+      continue;
+    }
+    if (line.startsWith('- Email: ')) {
+      cv.contact.email = line.replace('- Email: ', '');
+      continue;
+    }
+    if (line.startsWith('- Website: ')) {
+      cv.contact.website = line.replace('- Website: ', '');
+      continue;
+    }
+    if (line.startsWith('- Github: ')) {
+      cv.contact.github = line.replace('- Github: ', '');
+      continue;
+    }
+    if (line.startsWith('- Location: ')) {
+      cv.contact.location = line.replace('- Location: ', '');
       continue;
     }
 
