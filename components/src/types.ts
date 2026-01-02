@@ -1,13 +1,21 @@
+export interface ContactLink {
+  text: string;
+  url: string;
+}
+
 export interface ContactInfo {
   name: string;
   title: string;
   phone: string;
   email: string;
   location: string;
-  links: Array<{
-    text: string;
-    url: string;
-  }>;
+  links: ContactLink[];
+}
+
+export interface CvRole {
+  title: string;
+  date?: string;
+  details: string[];
 }
 
 export interface CvItem {
@@ -15,6 +23,7 @@ export interface CvItem {
   primaryRight?: string;
   secondary?: string;
   secondaryRight?: string;
+  roles?: CvRole[]; // New: Supports multiple positions
   details: string[];
   break?: boolean;
 }
@@ -26,7 +35,7 @@ export interface CvSection {
 }
 
 export interface CvProperties {
-  [key: string]: string | string[] | undefined;
+  [key: string]: string | string[];
 }
 
 export interface CvData {
