@@ -1,10 +1,10 @@
 import * as React from 'react';
 
 import { PDFViewer } from '@react-pdf/renderer';
-import { documentStyles, markdownToCv, CvDocument, validateCvMarkdown } from '@thecap-cv/components';
+import { documentStyles, markdownToCv, CvDocument, validateCvMarkdown } from './components/src/index';
 
 interface ReactViewProps {
-    markdown: string;
+  markdown: string;
 }
 
 export const ReactView: React.FC<ReactViewProps> = ({ markdown }) => {
@@ -21,9 +21,9 @@ export const ReactView: React.FC<ReactViewProps> = ({ markdown }) => {
         </ul>
         <p style={{ marginTop: '16px' }}>
           Please check the correct CV format in our{' '}
-          <a 
-            href="https://github.com/xthecapx/cv-generator#readme" 
-            target="_blank" 
+          <a
+            href="https://github.com/xthecapx/cv-generator#readme"
+            target="_blank"
             rel="noopener noreferrer"
             style={{ color: '#4444ff' }}
           >
@@ -37,10 +37,10 @@ export const ReactView: React.FC<ReactViewProps> = ({ markdown }) => {
   const cvData = markdownToCv(markdown);
 
   return (
-      <div className="react-view-container">
-        <PDFViewer style={documentStyles.viewer}>
-          <CvDocument cvData={cvData} />
-        </PDFViewer>
-      </div>
+    <div className="react-view-container">
+      <PDFViewer style={documentStyles.viewer}>
+        <CvDocument cvData={cvData} />
+      </PDFViewer>
+    </div>
   );
 };

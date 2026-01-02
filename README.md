@@ -66,3 +66,11 @@ What this means:
 - ❗ You must state changes made to the code
 - ❗ You must disclose your source code
 - ❗ You must use the same license (GPL-3.0)
+
+## What I added
+* Copied over the `components` folder
+Build `main.js` via
+```
+pnpx esbuild main.ts --bundle --external:obsidian --external:electron --format=cjs --main-fields=browser,module,main --outfile=main.js --loader:.tsx=tsx --loader:.ts=ts --jsx=transform
+```
+
