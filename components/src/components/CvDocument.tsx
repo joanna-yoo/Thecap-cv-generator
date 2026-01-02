@@ -22,12 +22,6 @@ export const documentStyles = StyleSheet.create({
     fontFamily: 'Helvetica-Bold',
     marginBottom: 4, // reduced from 8
   },
-  title: {
-    fontSize: 18,
-    marginBottom: 8, // reduced from 16
-    color: '#333333',
-    fontFamily: 'Helvetica',
-  },
   contactRow: {
     flexDirection: 'row',
     justifyContent: 'center',
@@ -47,14 +41,13 @@ export const documentStyles = StyleSheet.create({
     fontSize: 10,
   },
 });
-  
+
 export const CvDocument = ({ cvData }: { cvData: CvData }) => {
   return (
     <Document>
       <Page size="A4" style={documentStyles.page}>
         <View style={documentStyles.header}>
           <Text style={documentStyles.name}>{cvData.contact.name}</Text>
-          <Text style={documentStyles.title}>{cvData.contact.title}</Text>
           <View style={documentStyles.contactRow}>
             <Text>Phone: </Text>
             <Link src={`tel:${cvData.contact.phone}`} style={documentStyles.contactText}>
