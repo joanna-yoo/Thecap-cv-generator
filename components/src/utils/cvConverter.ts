@@ -33,10 +33,10 @@ export function markdownToCv(markdown: string): CvData {
       cv.contact.name = line.replace('# ', '');
       continue;
     }
-    if (line.startsWith('- Phone: ')) {
-      cv.contact.phone = line.replace('- Phone: ', '');
-      continue;
-    }
+    // if (line.startsWith('- Phone: ')) {
+    //   cv.contact.phone = line.replace('- Phone: ', '');
+    //   continue;
+    // }
     if (line.startsWith('- Email: ')) {
       cv.contact.email = line.replace('- Email: ', '');
       continue;

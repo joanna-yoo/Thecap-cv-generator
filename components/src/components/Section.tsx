@@ -64,7 +64,7 @@ export function Section({ section }: { section: CvSectionType }) {
           {(item.primary || item.primaryRight) && (
             <View style={sectionStyles.headerRow}>
               <Text style={sectionStyles.primaryText}>{renderFormattedText(item.primary || '')}</Text>
-              <Text>{item.primaryRight}</Text>
+              <Text style={{ fontSize: 11 }}>{item.primaryRight}</Text>
             </View>
           )}
 
